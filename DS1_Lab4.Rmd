@@ -2,6 +2,10 @@
 title: "DS1_Lab4"
 output: html_document
 date: "2022-11-09"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
