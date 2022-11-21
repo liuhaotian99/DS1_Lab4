@@ -15,6 +15,7 @@ library(tidyverse)
 library(dplyr)
 library(fields)
 library(GGally)
+library(ggplot2)
 
 ```
 
@@ -91,7 +92,33 @@ ggpairs(iris_scaled,
 
 ```
 
-
 # Problem 3
+```{r}
+
+?kmeans
+
+set.seed(100)
+wss <- function(k, data) {
+  kmeans(data, k, nstart = 50)$tot.withinss
+}
+
+k_values <- 1:15
+wss_values <- map_dbl(k_values, wss, data = iris_scaled)
+
+wss_values <- data.frame(wss = wss_values,
+                         k = k_values)
+
+g <- ggplot(wss_values, aes(x = k, y = wss)) +
+    geom_point() +
+  geom_line() + 
+  labs(title = "Within-Cluster Sum of Squares vs. Cluster Size \nfor the Iris Data Set",
+       y = "Within-Cluster Sum of Squares",
+       x = "Cluster Size")
+g
+
+
+```
+
+The appropriate number of clusters for the iris data set is 3 clusters. As evident in the figure above, the "kink" occurs at a cluster size of 3 for the curve hence that being the appropriate cluster size to use.
 
 
