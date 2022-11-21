@@ -1,6 +1,6 @@
 ---
 title: "DS1_Lab4"
-output: html_document
+author: "Zhan Shi, Priyal Thakkar, Haotian Liu"
 date: "2022-11-09"
 output: 
   html_document:
@@ -23,7 +23,6 @@ library(ggplot2)
 ```{r}
 library(datasets)
 data(iris)
-summary(iris)
 ```
 
 ```{r}
@@ -48,15 +47,6 @@ k_means <- function(data, k, iter){
   return(min_dis) 
 }
 
-# Data Wrangling 
-data(iris)
-
-iris <- iris %>% select(-Species) 
-
-# Scaling the Data
-iris_scaled <- as.data.frame(scale(iris))
-
-k_means(iris_scaled, 3, 50)
 ```
 
 
@@ -64,6 +54,13 @@ k_means(iris_scaled, 3, 50)
 
 ```{r message = FALSE, warning=FALSE}
 set.seed(2)
+# Data Wrangling 
+data(iris)
+
+iris <- iris %>% select(-Species) 
+
+# Scaling the Data
+iris_scaled <- as.data.frame(scale(iris))
 
 # Clustering
 cluster <- k_means(iris_scaled, 3, 50)     
@@ -93,15 +90,16 @@ ggpairs(iris_scaled,
 ```
 
 # Problem 3
+
 ```{r}
 
 set.seed(100)
-
+# Create a function to compute total within-cluster sum of square
 wss <- function(k, data) {
   kmeans(data, k, nstart = 50)$tot.withinss
 }
-
-k_values <- 1:15
+# Assign k values
+k_values <- 1:15 
 wss_values <- map_dbl(k_values, wss, data = iris_scaled)
 
 wss_values <- data.frame(wss = wss_values,
@@ -119,6 +117,6 @@ g
 
 ```
 
-The appropriate number of clusters for the iris data set is 3 clusters. As evident in the figure above, the "kink" occurs at a cluster size of 3 for the curve hence that being the appropriate cluster size to use. This kink occurs at where the slope of the curve switches from steep to shallow. From this plot, it is clear that additional clusters beyond the third cluster have little value. 
+### The appropriate number of clusters for the iris data set is 3 clusters. As evident in the figure above, the "kink" occurs at a cluster size of 3 for the curve hence that being the appropriate cluster size to use. This kink occurs at where the slope of the curve switches from steep to shallow. Since when k reaches the optimal number of clusters, the payoff in terms of the degree of aggregation obtained by increasing k further becomes rapidly smaller, so the decline in SSE decreases abruptly and then levels off as the value of k continues to increase. Thus k is best at 3.
 
 
