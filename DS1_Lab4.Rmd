@@ -95,8 +95,6 @@ ggpairs(iris_scaled,
 # Problem 3
 ```{r}
 
-?kmeans
-
 set.seed(100)
 wss <- function(k, data) {
   kmeans(data, k, nstart = 50)$tot.withinss
@@ -116,9 +114,8 @@ g <- ggplot(wss_values, aes(x = k, y = wss)) +
        x = "Cluster Size")
 g
 
-
 ```
 
-The appropriate number of clusters for the iris data set is 3 clusters. As evident in the figure above, the "kink" occurs at a cluster size of 3 for the curve hence that being the appropriate cluster size to use.
+The appropriate number of clusters for the iris data set is 3 clusters. As evident in the figure above, the "kink" occurs at a cluster size of 3 for the curve hence that being the appropriate cluster size to use. This kink occurs at where the slope of the curve switches from steep to shallow. From this plot, it is clear that additional clusters beyond the third cluster have little value. 
 
 
