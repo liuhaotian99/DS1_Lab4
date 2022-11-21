@@ -20,8 +20,25 @@ summary(iris)
 ```
 
 ```{r}
-k_means <- function(data, k, iter) {
-  
+set.seed(321) 
+
+k_means <- function(data, k, iter){
+  # randomly assigning each observation to a cluster
+  data <- data %>%
+    mutate(cluster = sample(1:k, nrow(data), replace = TRUE))
+  # calculate the centroids 
+  centroids <- data %>%
+    group_by(cluster) %>%
+    summarise(across(everything(), mean)) %>%
+    select(Sepal.Length:Petal.Width)
+  # calculate distance
+  points <- data %>%
+    select(Sepal.Length:Petal.Width)
+  for (i in iter){
+    # select the minimum distance
+    min_dis<- apply(rdist(centroids, points), 2, which.min)
+  }
+  return(min_dis) 
 }
 ```
 
