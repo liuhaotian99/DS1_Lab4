@@ -10,6 +10,12 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(dplyr)
+library(fields)
+library(GGally)
+
 ```
 
 # Problem 1
@@ -40,10 +46,52 @@ k_means <- function(data, k, iter){
   }
   return(min_dis) 
 }
+
+data(iris)
+
+iris <- iris %>% select(-Species) 
+iris_scaled <- as.data.frame(scale(iris)) # scaling data
+
+k_means(iris_scaled, 3, 50)
 ```
 
 
 # Probmen 2
+
+```{r message = FALSE, warning=FALSE}
+set.seed(2)
+
+# iris <- iris %>% select(-Species)
+
+## Scaling Data
+# iris_scaled <- as.data.frame(scale(iris))  
+
+# Clustering
+cluster <- k_means(iris_scaled, 3, 50)     
+
+# Adding Cluster Value to the Table 
+iris_scaled <- mutate(iris_scaled, 
+                      cluster_val = cluster)  
+
+iris_scaled$cluster_val <- as.factor(iris_scaled$cluster_val)  
+
+# Plot
+ggpairs(iris_scaled, 
+        legend = 1, 
+        columns = c("Sepal.Length", 
+                    "Sepal.Width", 
+                    "Petal.Length",
+                    "Petal.Width"),
+        columnLabels = c("Sepal Length", 
+                         "Sepal Width", 
+                         "Petal Length", 
+                         "Petal Width"),
+        aes(color = cluster_val), 
+        title="Sepal Characteristics by Clusters") + 
+  labs(fill='Cluster') 
+
+
+```
 
 
 
