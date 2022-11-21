@@ -96,6 +96,7 @@ ggpairs(iris_scaled,
 ```{r}
 
 set.seed(100)
+
 wss <- function(k, data) {
   kmeans(data, k, nstart = 50)$tot.withinss
 }
@@ -105,6 +106,8 @@ wss_values <- map_dbl(k_values, wss, data = iris_scaled)
 
 wss_values <- data.frame(wss = wss_values,
                          k = k_values)
+
+## Plotting Elbow Curve
 
 g <- ggplot(wss_values, aes(x = k, y = wss)) +
     geom_point() +
